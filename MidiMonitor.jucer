@@ -5,6 +5,8 @@
               pluginVST3Category="Analyzer">
   <MAINGROUP id="O9fqzT" name="MidiMonitor">
     <GROUP id="{38F27326-AE2D-522D-717E-FC22B56B2031}" name="Source">
+      <FILE id="dSfHY8" name="MainPanel.cpp" compile="1" resource="0" file="Source/MainPanel.cpp"/>
+      <FILE id="WINLis" name="MainPanel.h" compile="0" resource="0" file="Source/MainPanel.h"/>
       <FILE id="nXb55R" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="mnU5X7" name="PluginProcessor.h" compile="0" resource="0"

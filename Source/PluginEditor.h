@@ -10,6 +10,7 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
+#include "MainPanel.h"
 
 struct MidiMessageDescription {
     juce::String type;
@@ -34,15 +35,14 @@ public:
 private:
     void timerCallback() override;
     void postMessageToList (const juce::MidiMessage& message, const juce::String& source);
-    void logMessage (const juce::String& m);
+    // void logMessage (const juce::String& m);
     static MidiMessageDescription getMidiMessageDescription (const juce::MidiMessage& m);
-    // static juce::String getMidiMessageDescription (const juce::MidiMessage& m);
 
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     MidiMonitorAudioProcessor& audioProcessor;
 
-    juce::TextEditor midiMessagesBox;
+    MainPanel mainPanel;
     double startTime;
 
     std::map<juce::String,bool> shownMessages = {

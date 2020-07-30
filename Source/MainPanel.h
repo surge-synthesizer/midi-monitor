@@ -52,10 +52,13 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
-    juce::TextEditor midiMessagesBox;
     //[/UserVariables]
 
     //==============================================================================
+    std::unique_ptr<juce::GroupComponent> juce__groupComponent;
+    std::unique_ptr<juce::TextEditor> midiMessagesBox;
+    std::unique_ptr<juce::GroupComponent> filterGroup;
+    std::unique_ptr<juce::Label> midiMonitorLabel;
 
 
     //==============================================================================

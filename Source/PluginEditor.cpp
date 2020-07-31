@@ -14,7 +14,7 @@ MidiMonitorAudioProcessorEditor::MidiMonitorAudioProcessorEditor (MidiMonitorAud
     : AudioProcessorEditor (&p), audioProcessor (p),
     startTime (juce::Time::getMillisecondCounterHiRes() * 0.001)
 {
-    setSize (400, 400);
+    setSize (480, 400);
     addAndMakeVisible(mainPanel);
 
     // Start polling processor for Midi Messages

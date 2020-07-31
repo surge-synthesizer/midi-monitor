@@ -37,7 +37,7 @@ MainPanel::MainPanel ()
     addAndMakeVisible (messagesGroup.get());
     messagesGroup->setColour (juce::GroupComponent::textColourId, juce::Colour (0xffdddddd));
 
-    messagesGroup->setBounds (170, 40, 220, 345);
+    messagesGroup->setBounds (170, 40, 300, 345);
 
     midiMessagesBox.reset (new juce::TextEditor ("Messages"));
     addAndMakeVisible (midiMessagesBox.get());
@@ -52,7 +52,7 @@ MainPanel::MainPanel ()
     midiMessagesBox->setColour (juce::TextEditor::outlineColourId, juce::Colour (0x00000000));
     midiMessagesBox->setText (juce::String());
 
-    midiMessagesBox->setBounds (182, 60, 195, 315);
+    midiMessagesBox->setBounds (182, 60, 275, 315);
 
     filterGroup.reset (new juce::GroupComponent ("Filters",
                                                  TRANS("Filters")));
@@ -64,14 +64,14 @@ MainPanel::MainPanel ()
     midiMonitorLabel.reset (new juce::Label ("Midi Monitor",
                                              TRANS("MIDI Monitor")));
     addAndMakeVisible (midiMonitorLabel.get());
-    midiMonitorLabel->setFont (juce::Font (20.00f, juce::Font::plain).withTypefaceStyle ("Regular"));
+    midiMonitorLabel->setFont (juce::Font ("Lato", 30.00f, juce::Font::plain).withTypefaceStyle ("Regular").withExtraKerningFactor (0.018f));
     midiMonitorLabel->setJustificationType (juce::Justification::centred);
     midiMonitorLabel->setEditable (false, false, false);
     midiMonitorLabel->setColour (juce::Label::textColourId, juce::Colours::white);
     midiMonitorLabel->setColour (juce::TextEditor::textColourId, juce::Colours::black);
     midiMonitorLabel->setColour (juce::TextEditor::backgroundColourId, juce::Colour (0x00000000));
 
-    midiMonitorLabel->setBounds (10, 10, 380, 25);
+    midiMonitorLabel->setBounds (10, 10, 460, 25);
 
     noteButton.reset (new juce::TextButton ("Note Button"));
     addAndMakeVisible (noteButton.get());
@@ -156,7 +156,7 @@ MainPanel::MainPanel ()
     noteButton->setToggleState(true, juce::NotificationType::dontSendNotification);
     //[/UserPreSize]
 
-    setSize (400, 400);
+    setSize (480, 400);
 
 
     //[Constructor] You can add your own custom stuff here..
@@ -289,23 +289,23 @@ BEGIN_JUCER_METADATA
 <JUCER_COMPONENT documentType="Component" className="MainPanel" componentName=""
                  parentClasses="public juce::Component" constructorParams="" variableInitialisers=""
                  snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
-                 fixedSize="0" initialWidth="400" initialHeight="400">
+                 fixedSize="0" initialWidth="480" initialHeight="400">
   <BACKGROUND backgroundColour="ff001122"/>
   <GROUPCOMPONENT name="Messages Group" id="582abaaf115d3790" memberName="messagesGroup"
-                  virtualName="" explicitFocusOrder="0" pos="170 40 220 345" textcol="ffdddddd"
+                  virtualName="" explicitFocusOrder="0" pos="170 40 300 345" textcol="ffdddddd"
                   title="Messages"/>
   <TEXTEDITOR name="Messages" id="bdc400430d70b1c1" memberName="midiMessagesBox"
-              virtualName="" explicitFocusOrder="0" pos="182 60 195 315" textcol="ffffffff"
+              virtualName="" explicitFocusOrder="0" pos="182 60 275 315" textcol="ffffffff"
               bkgcol="ff001122" outlinecol="0" initialText="" multiline="1"
               retKeyStartsLine="1" readonly="1" scrollbars="1" caret="0" popupmenu="1"/>
   <GROUPCOMPONENT name="Filters" id="4514dcc6ef929e34" memberName="filterGroup"
                   virtualName="" explicitFocusOrder="0" pos="10 40 150 345" textcol="ffdddddd"
                   title="Filters"/>
   <LABEL name="Midi Monitor" id="78f962969b487daf" memberName="midiMonitorLabel"
-         virtualName="" explicitFocusOrder="0" pos="10 10 380 25" textCol="ffffffff"
+         virtualName="" explicitFocusOrder="0" pos="10 10 460 25" textCol="ffffffff"
          edTextCol="ff000000" edBkgCol="0" labelText="MIDI Monitor" editableSingleClick="0"
-         editableDoubleClick="0" focusDiscardsChanges="0" fontname="Default font"
-         fontsize="20.0" kerning="0.0" bold="0" italic="0" justification="36"/>
+         editableDoubleClick="0" focusDiscardsChanges="0" fontname="Lato"
+         fontsize="30.0" kerning="0.018" bold="0" italic="0" justification="36"/>
   <TEXTBUTTON name="Note Button" id="c7894df8d392efd7" memberName="noteButton"
               virtualName="" explicitFocusOrder="0" pos="20 60 130 25" bgColOff="ff001122"
               bgColOn="ff072f4f" textCol="ffffffff" buttonText="Note" connectedEdges="0"

@@ -33,7 +33,8 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class MainPanel  : public juce::Component
+class MainPanel  : public juce::Component,
+                   public juce::Button::Listener
 {
 public:
     //==============================================================================
@@ -47,6 +48,7 @@ public:
 
     void paint (juce::Graphics& g) override;
     void resized() override;
+    void buttonClicked (juce::Button* buttonThatWasClicked) override;
 
 
 
@@ -59,6 +61,13 @@ private:
     std::unique_ptr<juce::TextEditor> midiMessagesBox;
     std::unique_ptr<juce::GroupComponent> filterGroup;
     std::unique_ptr<juce::Label> midiMonitorLabel;
+    std::unique_ptr<juce::TextButton> noteButton;
+    std::unique_ptr<juce::TextButton> pitchBendButton;
+    std::unique_ptr<juce::TextButton> channelPressureButton;
+    std::unique_ptr<juce::TextButton> afterTouchButton;
+    std::unique_ptr<juce::TextButton> controllerButton;
+    std::unique_ptr<juce::TextButton> programChangeButton;
+    std::unique_ptr<juce::TextButton> allNotesOffButton;
 
 
     //==============================================================================

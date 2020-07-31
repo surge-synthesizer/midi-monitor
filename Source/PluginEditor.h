@@ -47,14 +47,14 @@ private:
 
     std::map<juce::String,bool> shownMessages = {
       { "note", true },
-      { "pitchWheel", false },
-      { "channelPressure", false },
-      { "aftertouch", false },
-      { "programChange", false },
+      { "pitchWheel", true },
+      { "channelPressure", true },
+      { "aftertouch", true },
+      { "programChange", true },
       { "allNotesOn", false },
-      { "allNotesOff", false },
+      { "allNotesOff", true },
       { "metaEvent", false },
-      { "controller", false },
+      { "controller", true },
       { "unknown", false }
     };
 

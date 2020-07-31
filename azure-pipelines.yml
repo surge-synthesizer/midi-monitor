@@ -71,12 +71,12 @@ jobs:
     condition: variables.isLinux
 
   - bash:
-      cmake -Bbuild -A x64
+      cmake -Bbuild -A x64 -DCMAKE_WIN_INSTALLER_NAME=x64
     displayName: cmake win 64
     condition: variables.isWindows
 
   - bash:
-      cmake -Bbuild -A Win32
+      cmake -Bbuild -A Win32 -DCMAKE_WIN_INSTALLER_NAME=Win32
     displayName: cmake (win32)
     condition: variables.isWindows32
 

@@ -158,7 +158,7 @@ elseif( UNIX )
     COMMAND cd ${WELL_NAMED_ASSET_DIR} && tar czf "${INSTALLER_DIR}/${INSTALLER_BASENAME}-linux-${GIT_COMMIT_HASH}.tgz" .
     )
 else()
-  file( TO_NATIVE_PATH "${INSTALLER_DIR}/${INSTALLER_BASENAME}-win-${GIT_COMMIT_HASH}.zip" OUTPUT_ZIP )
+  file( TO_NATIVE_PATH "${INSTALLER_DIR}/${INSTALLER_BASENAME}-win-${CMAKE_WIN_INSTALLER_NAME}-${GIT_COMMIT_HASH}.zip" OUTPUT_ZIP )
   message( STATUS "Final product will be  ${OUTPUT_ZIP} from ${WELL_NAMED_ASSET_DIR}" )
   add_custom_command(
     TARGET installer-pkg

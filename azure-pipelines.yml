@@ -67,8 +67,13 @@ jobs:
 
   - bash:
       cmake -Bbuild
-    displayName: cmake (win and lin)
-    condition: or( variables.isWindows, variables.isLinux )
+    displayName: cmake lin
+    condition: variables.isLinux
+
+  - bash:
+      cmake -Bbuild -A x64
+    displayName: cmake win 64
+    condition: variables.isWindows
 
   - bash:
       cmake -Bbuild -A Win32

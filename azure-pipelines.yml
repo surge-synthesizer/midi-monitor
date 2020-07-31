@@ -1,0 +1,159 @@
+# Build the midi-monitor with JUCE buidls
+
+trigger:
+- main
+
+pr:
+- main
+
+jobs:
+- job: Build
+  strategy:
+    matrix:
+      mac:
+        imageName: 'macos-10.14'
+        isMac: True
+      win:
+        imageName: 'vs2017-win2016'
+        isWindows: True
+      win32bit:
+        imageName: 'vs2017-win2016'
+        isWindows32: True
+      linux:
+        imageName: 'ubuntu-16.04'
+        isLinux: True
+
+  pool:
+    vmImage: $(imageName)
+
+  steps:
+  - checkout: self
+    fetchDepth: 1
+    # submodules: recursive # can't do submodules here b'cuz depth=1 fails with Github
+
+  - bash: |
+      sudo apt-get update
+      sudo apt-get install -y libgtk-3-dev
+      sudo apt-get install -y libwebkit2gtk-4.0
+      sudo apt-get install -y libwebkit2gtk-4.0-dev
+      sudo apt-get install -y libcurl4-openssl-dev
+      sudo apt-get install -y alsa
+      sudp apt-get install -y alsa-tools
+      sudo apt-get install -y libasound2-dev
+      sudo apt-get install -y jack
+      sudo apt-get install -y libjack-dev
+      sudo apt-get install -y libfreetype6-dev
+      sudo apt-get install -y libxinerama-dev
+      sudo apt-get install -y libxcb-xinerama0
+      sudo apt-get install -y libxinerama1
+      sudo apt-get install -y x11proto-xinerama-dev
+      sudo apt-get install -y libxrandr-dev
+      sudo apt-get install -y libgl1-mesa-dev
+      sudo apt-get install -y libxcursor-dev 
+      sudo apt-get install -y libxcursor1 
+      sudo apt-get install -y libxcb-cursor-dev 
+      sudo apt-get install -y libxcb-cursor0
+      sudo apt-get install -y --fix-missing
+
+      apt list --installed
+
+      find /usr/include -name "asoundlib.h" -print
+    displayName: Prepare Linux Host
+    condition: variables.isLinux
+
+  - bash: |
+      git submodule update --init --recursive
+    displayName: Get JUCE SubModule
+
+  - bash:
+      cmake -Bbuild
+    displayName: cmake (win and lin)
+    condition: or( variables.isWindows, variables.isLinux )
+
+  - bash:
+      cmake -Bbuild -A Win32
+    displayName: cmake (win32)
+    condition: variables.isWindows32
+
+  - bash:
+      cmake -Bbuild -GXcode
+    displayName: cmake (mac)
+    condition: variables.isMac
+
+  - bash: |
+      cmake --build build --config Release --target installer-pkg
+    displayName: Build
+
+
+  - task: PublishPipelineArtifact@0
+    inputs:
+      artifactName: 'MACOS_BUILD'
+      targetPath: 'build/asset/'
+    displayName: Publish Mac DMG
+    condition: variables.isMac
+
+
+  - task: PublishPipelineArtifact@0
+    inputs:
+      artifactName: 'WINDOWS_BUILD'
+      targetPath: 'build/asset/'
+    displayName: Publish Windows Zip
+    condition: variables.isWindows
+
+  - task: PublishPipelineArtifact@0
+    inputs:
+      artifactName: 'WINDOWS32_BUILD'
+      targetPath: 'build/asset/'
+    displayName: Publish Windows32 Zip
+    condition: variables.isWindows32
+
+  - task: PublishPipelineArtifact@0
+    inputs:
+      artifactName: 'LINUX_BUILD'
+      targetPath: 'build/asset'
+    displayName: Publish Linux Tar
+    condition: variables.isLinux
+
+
+- job: UpdateGithubRelease
+  dependsOn: Build
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+
+  steps:
+  - task: DownloadPipelineArtifact@0
+    inputs:
+      artifactName: 'MACOS_BUILD'
+      targetPath: $(Build.ArtifactStagingDirectory)
+
+  - task: DownloadPipelineArtifact@0
+    inputs:
+      artifactName: 'WINDOWS_BUILD'
+      targetPath: $(Build.ArtifactStagingDirectory)
+
+  - task: DownloadPipelineArtifact@0
+    inputs:
+      artifactName: 'WINDOWS32_BUILD'
+      targetPath: $(Build.ArtifactStagingDirectory)
+
+  - task: DownloadPipelineArtifact@0
+    inputs:
+      artifactName: 'LINUX_BUILD'
+      targetPath: $(Build.ArtifactStagingDirectory)
+
+  - bash: |
+     scripts/release-notes.sh > $(Build.ArtifactStagingDirectory)/ReleaseNotes.md
+     ls $(Build.ArtifactStagingDirectory)
+    displayName: Fake up release notes
+
+  - task: GitHubRelease@0
+    displayName: "Update Github Release"
+    inputs:
+      gitHubConnection: surge-rackupdater
+      repositoryName: surge-synthesizer/midi-monitor
+      action: edit
+      tag: Nightly
+      target: '$(Build.SourceVersion)'
+      addChangeLog: false
+      releaseNotesFile: $(Build.ArtifactStagingDirectory)/ReleaseNotes.md
+      assets: $(Build.ArtifactStagingDirectory)/*.*
+

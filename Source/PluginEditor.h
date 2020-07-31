@@ -11,11 +11,7 @@
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 #include "MainPanel.h"
-
-struct MidiMessageDescription {
-    juce::String type;
-    juce::String description;
-};
+#include "MidiMessageDescription.h"
 
 //==============================================================================
 /**
@@ -35,7 +31,6 @@ public:
 private:
     void timerCallback() override;
     void postMessageToList (const juce::MidiMessage& message, const juce::String& source);
-    // void logMessage (const juce::String& m);
     static MidiMessageDescription getMidiMessageDescription (const juce::MidiMessage& m);
 
     // This reference is provided as a quick way for your editor to
@@ -44,19 +39,6 @@ private:
 
     MainPanel mainPanel;
     double startTime;
-
-    std::map<juce::String,bool> shownMessages = {
-      { "note", true },
-      { "pitchWheel", true },
-      { "channelPressure", true },
-      { "aftertouch", true },
-      { "programChange", true },
-      { "allNotesOn", false },
-      { "allNotesOff", true },
-      { "metaEvent", false },
-      { "controller", true },
-      { "unknown", false }
-    };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MidiMonitorAudioProcessorEditor)
 };

@@ -152,6 +152,8 @@ MainPanel::MainPanel ()
     controllerButton->setClickingTogglesState(true);
     programChangeButton->setClickingTogglesState(true);
     allNotesOffButton->setClickingTogglesState(true);
+
+    noteButton->setToggleState(true, juce::NotificationType::dontSendNotification);
     //[/UserPreSize]
 
     setSize (400, 400);
@@ -214,36 +216,43 @@ void MainPanel::buttonClicked (juce::Button* buttonThatWasClicked)
     if (buttonThatWasClicked == noteButton.get())
     {
         //[UserButtonCode_noteButton] -- add your button handler code here..
+        selectedMessages["note"] = !( selectedMessages.find("note")->second );
         //[/UserButtonCode_noteButton]
     }
     else if (buttonThatWasClicked == pitchBendButton.get())
     {
         //[UserButtonCode_pitchBendButton] -- add your button handler code here..
+        selectedMessages["pitchBend"] = !( selectedMessages.find("pitchBend")->second );
         //[/UserButtonCode_pitchBendButton]
     }
     else if (buttonThatWasClicked == channelPressureButton.get())
     {
         //[UserButtonCode_channelPressureButton] -- add your button handler code here..
+        selectedMessages["channelPressure"] = !( selectedMessages.find("channelPressure")->second );
         //[/UserButtonCode_channelPressureButton]
     }
     else if (buttonThatWasClicked == afterTouchButton.get())
     {
         //[UserButtonCode_afterTouchButton] -- add your button handler code here..
+        selectedMessages["aftertouch"] = !( selectedMessages.find("aftertouch")->second );
         //[/UserButtonCode_afterTouchButton]
     }
     else if (buttonThatWasClicked == controllerButton.get())
     {
         //[UserButtonCode_controllerButton] -- add your button handler code here..
+        selectedMessages["controller"] = !( selectedMessages.find("controller")->second );
         //[/UserButtonCode_controllerButton]
     }
     else if (buttonThatWasClicked == programChangeButton.get())
     {
         //[UserButtonCode_programChangeButton] -- add your button handler code here..
+        selectedMessages["programChange"] = !( selectedMessages.find("programChange")->second );
         //[/UserButtonCode_programChangeButton]
     }
     else if (buttonThatWasClicked == allNotesOffButton.get())
     {
         //[UserButtonCode_allNotesOffButton] -- add your button handler code here..
+        selectedMessages["allNotesOff"] = !( selectedMessages.find("allNotesOff")->second );
         //[/UserButtonCode_allNotesOffButton]
     }
 
@@ -259,6 +268,11 @@ void MainPanel::logMessage (const juce::String& m)
 {
     midiMessagesBox->moveCaretToEnd();
     midiMessagesBox->insertTextAtCaret (m + juce::newLine);
+}
+
+
+bool MainPanel::messageTypeSelected (const MidiMessageDescription messageDescription) {
+    return selectedMessages.find(messageDescription.type)->second;
 }
 
 //[/MiscUserCode]

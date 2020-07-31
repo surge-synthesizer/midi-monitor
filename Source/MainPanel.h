@@ -21,6 +21,7 @@
 
 //[Headers]     -- You can add your own extra header files here --
 #include <JuceHeader.h>
+#include "MidiMessageDescription.h"
 //[/Headers]
 
 
@@ -44,6 +45,7 @@ public:
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
     void logMessage (const juce::String& m);
+    bool messageTypeSelected (const MidiMessageDescription MidiMessageDescription);
     //[/UserMethods]
 
     void paint (juce::Graphics& g) override;
@@ -54,6 +56,18 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
+    std::map<juce::String,bool> selectedMessages = {
+      { "note", true },
+      { "pitchBend", false },
+      { "channelPressure", false },
+      { "aftertouch", false },
+      { "programChange", false },
+      { "allNotesOn", false },
+      { "allNotesOff", false },
+      { "metaEvent", false },
+      { "controller", false },
+      { "unknown", false }
+    };
     //[/UserVariables]
 
     //==============================================================================

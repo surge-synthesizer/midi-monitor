@@ -66,7 +66,7 @@ void MidiMonitorAudioProcessorEditor::addMessageToList (const juce::MidiMessage&
 
     auto messageDescription = getMidiMessageDescription (message);
 
-    if (shownMessages.find(messageDescription.type)->second) {
+    if (mainPanel.messageTypeSelected(messageDescription)) {
         juce::String midiMessageString (messageDescription.description);
         mainPanel.logMessage (midiMessageString);
     }
@@ -86,7 +86,7 @@ MidiMessageDescription MidiMonitorAudioProcessorEditor::getMidiMessageDescriptio
     }
     else if (m.isPitchWheel())
     {
-       messageDescription = {"pitchWheel", "Pitch wheel " + juce::String (m.getPitchWheelValue()) };
+       messageDescription = {"pitchBend", "Pitch bend " + juce::String (m.getPitchWheelValue()) };
     }
     else if (m.isChannelPressure())
     {
@@ -94,7 +94,7 @@ MidiMessageDescription MidiMonitorAudioProcessorEditor::getMidiMessageDescriptio
     }
     else if (m.isAftertouch())
     {
-      messageDescription = { "aftertouch", "After touch " + juce::MidiMessage::getMidiNoteName (m.getNoteNumber(), true, true, 3) +  ": " + juce::String (m.getAfterTouchValue()) };
+      messageDescription = { "aftertouch", "Aftertouch " + juce::MidiMessage::getMidiNoteName (m.getNoteNumber(), true, true, 3) +  ": " + juce::String (m.getAfterTouchValue()) };
     }
     else if (m.isProgramChange())
     {

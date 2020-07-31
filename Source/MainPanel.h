@@ -66,6 +66,8 @@ private:
       { "allNotesOff", false },
       { "unknown", false }
     };
+
+    std::unique_ptr<juce::Label> versionLabel;
     //[/UserVariables]
 
     //==============================================================================

@@ -32,12 +32,12 @@ MainPanel::MainPanel ()
     //[Constructor_pre] You can add your own custom stuff here..
     //[/Constructor_pre]
 
-    juce__groupComponent.reset (new juce::GroupComponent ("new group",
-                                                          TRANS("Messages")));
-    addAndMakeVisible (juce__groupComponent.get());
-    juce__groupComponent->setColour (juce::GroupComponent::textColourId, juce::Colour (0xffdddddd));
+    messagesGroup.reset (new juce::GroupComponent ("Messages Group",
+                                                   TRANS("Messages")));
+    addAndMakeVisible (messagesGroup.get());
+    messagesGroup->setColour (juce::GroupComponent::textColourId, juce::Colour (0xffdddddd));
 
-    juce__groupComponent->setBounds (170, 40, 220, 345);
+    messagesGroup->setBounds (170, 40, 220, 345);
 
     midiMessagesBox.reset (new juce::TextEditor ("Messages"));
     addAndMakeVisible (midiMessagesBox.get());
@@ -103,15 +103,15 @@ MainPanel::MainPanel ()
 
     channelPressureButton->setBounds (20, 130, 130, 25);
 
-    afterTouchButton.reset (new juce::TextButton ("Aftertouch Button"));
-    addAndMakeVisible (afterTouchButton.get());
-    afterTouchButton->setButtonText (TRANS("Aftertouch"));
-    afterTouchButton->addListener (this);
-    afterTouchButton->setColour (juce::TextButton::buttonColourId, juce::Colour (0xff001122));
-    afterTouchButton->setColour (juce::TextButton::buttonOnColourId, juce::Colour (0xff072f4f));
-    afterTouchButton->setColour (juce::TextButton::textColourOffId, juce::Colours::white);
+    aftertouchButton.reset (new juce::TextButton ("Aftertouch Button"));
+    addAndMakeVisible (aftertouchButton.get());
+    aftertouchButton->setButtonText (TRANS("Aftertouch"));
+    aftertouchButton->addListener (this);
+    aftertouchButton->setColour (juce::TextButton::buttonColourId, juce::Colour (0xff001122));
+    aftertouchButton->setColour (juce::TextButton::buttonOnColourId, juce::Colour (0xff072f4f));
+    aftertouchButton->setColour (juce::TextButton::textColourOffId, juce::Colours::white);
 
-    afterTouchButton->setBounds (20, 165, 130, 25);
+    aftertouchButton->setBounds (20, 165, 130, 25);
 
     controllerButton.reset (new juce::TextButton ("CC Button"));
     addAndMakeVisible (controllerButton.get());
@@ -148,7 +148,7 @@ MainPanel::MainPanel ()
     noteButton->setClickingTogglesState(true);
     pitchBendButton->setClickingTogglesState(true);
     channelPressureButton->setClickingTogglesState(true);
-    afterTouchButton->setClickingTogglesState(true);
+    aftertouchButton->setClickingTogglesState(true);
     controllerButton->setClickingTogglesState(true);
     programChangeButton->setClickingTogglesState(true);
     allNotesOffButton->setClickingTogglesState(true);
@@ -168,14 +168,14 @@ MainPanel::~MainPanel()
     //[Destructor_pre]. You can add your own custom destruction code here..
     //[/Destructor_pre]
 
-    juce__groupComponent = nullptr;
+    messagesGroup = nullptr;
     midiMessagesBox = nullptr;
     filterGroup = nullptr;
     midiMonitorLabel = nullptr;
     noteButton = nullptr;
     pitchBendButton = nullptr;
     channelPressureButton = nullptr;
-    afterTouchButton = nullptr;
+    aftertouchButton = nullptr;
     controllerButton = nullptr;
     programChangeButton = nullptr;
     allNotesOffButton = nullptr;
@@ -231,11 +231,10 @@ void MainPanel::buttonClicked (juce::Button* buttonThatWasClicked)
         selectedMessages["channelPressure"] = !( selectedMessages.find("channelPressure")->second );
         //[/UserButtonCode_channelPressureButton]
     }
-    else if (buttonThatWasClicked == afterTouchButton.get())
+    else if (buttonThatWasClicked == aftertouchButton.get())
     {
-        //[UserButtonCode_afterTouchButton] -- add your button handler code here..
-        selectedMessages["aftertouch"] = !( selectedMessages.find("aftertouch")->second );
-        //[/UserButtonCode_afterTouchButton]
+        //[UserButtonCode_aftertouchButton] -- add your button handler code here..
+        //[/UserButtonCode_aftertouchButton]
     }
     else if (buttonThatWasClicked == controllerButton.get())
     {
@@ -292,7 +291,7 @@ BEGIN_JUCER_METADATA
                  snapPixels="8" snapActive="1" snapShown="1" overlayOpacity="0.330"
                  fixedSize="0" initialWidth="400" initialHeight="400">
   <BACKGROUND backgroundColour="ff001122"/>
-  <GROUPCOMPONENT name="new group" id="582abaaf115d3790" memberName="juce__groupComponent"
+  <GROUPCOMPONENT name="Messages Group" id="582abaaf115d3790" memberName="messagesGroup"
                   virtualName="" explicitFocusOrder="0" pos="170 40 220 345" textcol="ffdddddd"
                   title="Messages"/>
   <TEXTEDITOR name="Messages" id="bdc400430d70b1c1" memberName="midiMessagesBox"
@@ -319,7 +318,7 @@ BEGIN_JUCER_METADATA
               virtualName="" explicitFocusOrder="0" pos="20 130 130 25" bgColOff="ff001122"
               bgColOn="ff072f4f" textCol="ffffffff" buttonText="Channel Pressure"
               connectedEdges="0" needsCallback="1" radioGroupId="0"/>
-  <TEXTBUTTON name="Aftertouch Button" id="5936a87208eb6749" memberName="afterTouchButton"
+  <TEXTBUTTON name="Aftertouch Button" id="5936a87208eb6749" memberName="aftertouchButton"
               virtualName="" explicitFocusOrder="0" pos="20 165 130 25" bgColOff="ff001122"
               bgColOn="ff072f4f" textCol="ffffffff" buttonText="Aftertouch"
               connectedEdges="0" needsCallback="1" radioGroupId="0"/>

@@ -26,11 +26,11 @@ public:
     //==============================================================================
     void paint (juce::Graphics&) override;
     void resized() override;
-    void addMessageToList (const juce::MidiMessage& message, const juce::String& source);
+    void addMessageToList (const juce::MidiMessage& message);
 
 private:
     void timerCallback() override;
-    void postMessageToList (const juce::MidiMessage& message, const juce::String& source);
+    void postMessageToList (const juce::MidiMessage& message);
     static MidiMessageDescription getMidiMessageDescription (const juce::MidiMessage& m);
 
     // This reference is provided as a quick way for your editor to
@@ -48,17 +48,16 @@ private:
 class IncomingMessageCallback   : public juce::CallbackMessage
 {
 public:
-    IncomingMessageCallback (MidiMonitorAudioProcessorEditor* o, const juce::MidiMessage& m, const juce::String& s)
-        : owner (o), message (m), source (s)
+    IncomingMessageCallback (MidiMonitorAudioProcessorEditor* o, const juce::MidiMessage& m)
+        : owner (o), message (m)
     {}
+
+    MidiMonitorAudioProcessorEditor::SafePointer<MidiMonitorAudioProcessorEditor> owner;
+    juce::MidiMessage message;
 
     void messageCallback() override
     {
         if (owner != nullptr)
-            owner->addMessageToList (message, source);
+            owner->addMessageToList (message);
     }
-
-    MidiMonitorAudioProcessorEditor::SafePointer<MidiMonitorAudioProcessorEditor> owner;
-    juce::MidiMessage message;
-    juce::String source;
 };

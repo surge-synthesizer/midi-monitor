@@ -61,24 +61,22 @@ private:
       { "pitchBend", false },
       { "channelPressure", false },
       { "aftertouch", false },
-      { "programChange", false },
-      { "allNotesOn", false },
-      { "allNotesOff", false },
-      { "metaEvent", false },
       { "controller", false },
+      { "programChange", false },
+      { "allNotesOff", false },
       { "unknown", false }
     };
     //[/UserVariables]
 
     //==============================================================================
-    std::unique_ptr<juce::GroupComponent> juce__groupComponent;
+    std::unique_ptr<juce::GroupComponent> messagesGroup;
     std::unique_ptr<juce::TextEditor> midiMessagesBox;
     std::unique_ptr<juce::GroupComponent> filterGroup;
     std::unique_ptr<juce::Label> midiMonitorLabel;
     std::unique_ptr<juce::TextButton> noteButton;
     std::unique_ptr<juce::TextButton> pitchBendButton;
     std::unique_ptr<juce::TextButton> channelPressureButton;
-    std::unique_ptr<juce::TextButton> afterTouchButton;
+    std::unique_ptr<juce::TextButton> aftertouchButton;
     std::unique_ptr<juce::TextButton> controllerButton;
     std::unique_ptr<juce::TextButton> programChangeButton;
     std::unique_ptr<juce::TextButton> allNotesOffButton;

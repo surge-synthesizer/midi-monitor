@@ -40,35 +40,21 @@ void MidiMonitorAudioProcessorEditor::timerCallback()
 {
     if (!audioProcessor.midiMessageQueueEmpty()) {
         juce::MidiMessage message = audioProcessor.getMidiMessage();
-        postMessageToList(message, "Host");
+        postMessageToList(message);
     }
 }
 
-void MidiMonitorAudioProcessorEditor::postMessageToList (const juce::MidiMessage& message, const juce::String& source)
+void MidiMonitorAudioProcessorEditor::postMessageToList (const juce::MidiMessage& message)
 {
-    (new IncomingMessageCallback (this, message, source))->post();
+    (new IncomingMessageCallback (this, message))->post();
 }
 
-void MidiMonitorAudioProcessorEditor::addMessageToList (const juce::MidiMessage& message, const juce::String& source)
+void MidiMonitorAudioProcessorEditor::addMessageToList (const juce::MidiMessage& message)
 {
-    auto time = message.getTimeStamp() - startTime;
-
-    auto hours   = ((int) (time / 3600.0)) % 24;
-    auto minutes = ((int) (time / 60.0)) % 60;
-    auto seconds = ((int) time) % 60;
-    auto millis  = ((int) (time * 1000.0)) % 1000;
-
-    auto timecode = juce::String::formatted ("%02d:%02d:%02d.%03d",
-                                              hours,
-                                              minutes,
-                                              seconds,
-                                              millis);
-
     auto messageDescription = getMidiMessageDescription (message);
 
     if (mainPanel.messageTypeSelected(messageDescription)) {
-        juce::String midiMessageString (messageDescription.description);
-        mainPanel.logMessage (midiMessageString);
+        mainPanel.logMessage (messageDescription.description);
     }
 }
 
@@ -96,21 +82,6 @@ MidiMessageDescription MidiMonitorAudioProcessorEditor::getMidiMessageDescriptio
     {
       messageDescription = { "aftertouch", "Aftertouch " + juce::MidiMessage::getMidiNoteName (m.getNoteNumber(), true, true, 3) +  ": " + juce::String (m.getAfterTouchValue()) };
     }
-    else if (m.isProgramChange())
-    {
-        messageDescription = { "programChange", "Program change " + juce::String (m.getProgramChangeNumber()) };
-    }
-    else if (m.isAllNotesOff())
-    {
-        messageDescription = { "allNotesOn", "All notes off" };
-    }
-    else if (m.isAllSoundOff())
-    {
-        messageDescription = { "allNotesOff",  "All sound off" };
-    }
-    else if (m.isMetaEvent()) {
-        messageDescription = { "metaEvent", "Meta event" };
-    }
     else if (m.isController())
     {
         juce::String name (juce::MidiMessage::getControllerName (m.getControllerNumber()));
@@ -119,6 +90,14 @@ MidiMessageDescription MidiMonitorAudioProcessorEditor::getMidiMessageDescriptio
             name = "[" + juce::String (m.getControllerNumber()) + "]";
 
         messageDescription = { "controller", "Controller " + name + ": " + juce::String (m.getControllerValue()) };
+    }
+    else if (m.isProgramChange())
+    {
+        messageDescription = { "programChange", "Program change " + juce::String (m.getProgramChangeNumber()) };
+    }
+    else if (m.isAllNotesOff())
+    {
+        messageDescription = { "allNotesOff", "All notes off" };
     }
     else
     {

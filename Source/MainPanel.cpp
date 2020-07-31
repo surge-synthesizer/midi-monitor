@@ -18,6 +18,7 @@
 */
 
 //[Headers] You can add your own extra header files here...
+#include "version.h"
 //[/Headers]
 
 #include "MainPanel.h"
@@ -160,6 +161,19 @@ MainPanel::MainPanel ()
 
 
     //[Constructor] You can add your own custom stuff here..
+    std::string vl =  Build::git_commit_hash + " / " + Build::build_date;
+    versionLabel.reset (new juce::Label ("Version",
+                                         TRANS(vl.c_str())));
+    addAndMakeVisible (versionLabel.get());
+    versionLabel->setFont (juce::Font ("Lato", 10.00f, juce::Font::plain).withTypefaceStyle ("Regular").withExtraKerningFactor (0.018f));
+    versionLabel->setJustificationType (juce::Justification::centred);
+    versionLabel->setEditable (false, false, false);
+    versionLabel->setColour (juce::Label::textColourId, juce::Colours::white);
+    versionLabel->setColour (juce::TextEditor::textColourId, juce::Colours::black);
+    versionLabel->setColour (juce::TextEditor::backgroundColourId, juce::Colour (0x00000000));
+
+    versionLabel->setBounds (10, 385, 460, 12);
+
     //[/Constructor]
 }
 

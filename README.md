@@ -10,7 +10,7 @@ We distribute a built version of the codebase for mac, windows, and linux [here]
 
 If you find a bug or want to make a change, please open a github issue or join our slack.
 
-# How to Build 
+## How to Build 
 
 The build uses `cmake` and is the same on all platforms.
 

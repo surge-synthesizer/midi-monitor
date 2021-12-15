@@ -32,6 +32,8 @@ juce_add_plugin(midi-monitor
     NEEDS_MIDI_INPUT TRUE
     NEEDS_MIDI_OUTPUT FALSE
     IS_MIDI_EFFECT FALSE
+  
+    COPY_PLUGIN_AFTER_BUILD  TRUE
     
     FORMATS AU VST3 Standalone
 )

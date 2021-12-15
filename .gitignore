@@ -6,5 +6,8 @@ build
 buildwin
 buildlin
 
+ignore
+cmake-build-*
+
 # libs
 # lib

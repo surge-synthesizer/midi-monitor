@@ -8,6 +8,7 @@ buildlin
 
 ignore
 cmake-build-*
+.idea
 
 # libs
 # lib

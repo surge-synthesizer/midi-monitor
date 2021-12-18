@@ -11,16 +11,16 @@ jobs:
   strategy:
     matrix:
       mac:
-        imageName: 'macos-10.14'
+        imageName: 'macos-10.15'
         isMac: True
       win:
-        imageName: 'vs2017-win2016'
+        imageName: 'windows-2019'
         isWindows: True
       win32bit:
-        imageName: 'vs2017-win2016'
+        imageName: 'windows-2019'
         isWindows32: True
       linux:
-        imageName: 'ubuntu-16.04'
+        imageName: 'ubuntu-20.04'
         isLinux: True
 
   pool:

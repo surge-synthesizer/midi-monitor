@@ -4,7 +4,25 @@ set(CMAKE_OSX_DEPLOYMENT_TARGET 10.11 CACHE STRING "Build for 10.11")
 
 project(midi-monitor VERSION 0.9.0 LANGUAGES CXX)
 
-add_subdirectory(lib/JUCE)
+set(SURGE_JUCE_PATH "${CMAKE_SOURCE_DIR}/lib/JUCE" CACHE STRING "Path to JUCE library source tree")
+message(STATUS "Loading JUCE from ${SURGE_JUCE_PATH}")
+add_subdirectory(${SURGE_JUCE_PATH} ${CMAKE_BINARY_DIR}/JUCE EXCLUDE_FROM_ALL)
+
+
+set(SURGE_JUCE_FORMATS VST3 Standalone)
+
+if (APPLE)
+  list(APPEND SURGE_JUCE_FORMATS AU)
+endif()
+
+if(SURGE_CLAP_ROOT)
+  message( STATUS "Gathering CLAP from ${SURGE_CLAP_ROOT}")
+  if (NOT EXISTS "${SURGE_JUCE_PATH}/modules/juce_audio_plugin_client/juce_audio_plugin_client_CLAP.cpp")
+    message(FATAL_ERROR "To use CLAP you need to both set SURGE_CLAP_ROOT and have SURGE_JUCE_PATH point at a clap-enabled juce")
+  endif()
+  juce_set_clap_sdk_path("${SURGE_CLAP_ROOT}/clap" "${SURGE_CLAP_ROOT}/clap-helpers")
+  list(APPEND SURGE_JUCE_FORMATS CLAP)
+endif()
 
 execute_process(
   COMMAND git rev-parse --abbrev-ref HEAD
@@ -35,7 +53,7 @@ juce_add_plugin(midi-monitor
   
     COPY_PLUGIN_AFTER_BUILD  TRUE
     
-    FORMATS AU VST3 Standalone
+    FORMATS ${SURGE_JUCE_FORMATS}
 )
 
 juce_generate_juce_header( midi-monitor )

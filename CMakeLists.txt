@@ -15,14 +15,6 @@ if (APPLE)
   list(APPEND SURGE_JUCE_FORMATS AU)
 endif()
 
-if(SURGE_CLAP_ROOT)
-  message( STATUS "Gathering CLAP from ${SURGE_CLAP_ROOT}")
-  if (NOT EXISTS "${SURGE_JUCE_PATH}/modules/juce_audio_plugin_client/juce_audio_plugin_client_CLAP.cpp")
-    message(FATAL_ERROR "To use CLAP you need to both set SURGE_CLAP_ROOT and have SURGE_JUCE_PATH point at a clap-enabled juce")
-  endif()
-  juce_set_clap_sdk_path("${SURGE_CLAP_ROOT}/clap" "${SURGE_CLAP_ROOT}/clap-helpers")
-  list(APPEND SURGE_JUCE_FORMATS CLAP)
-endif()
 
 execute_process(
   COMMAND git rev-parse --abbrev-ref HEAD
@@ -55,6 +47,12 @@ juce_add_plugin(midi-monitor
     
     FORMATS ${SURGE_JUCE_FORMATS}
 )
+
+if (CLAP_JUCE_EXTENSIONS_ROOT)
+  add_subdirectory(${CLAP_JUCE_EXTENSIONS_ROOT} clap-juce-extensions)
+  clap_juce_extensions_plugin(TARGET midi-monitor
+	  CLAP_ID "org.surge-synth-team.midi-monitor")
+endif()
 
 juce_generate_juce_header( midi-monitor )
 

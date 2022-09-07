@@ -61,26 +61,32 @@ void MidiMonitorAudioProcessorEditor::addMessageToList (const juce::MidiMessage&
 MidiMessageDescription MidiMonitorAudioProcessorEditor::getMidiMessageDescription (const juce::MidiMessage& m)
 {
     MidiMessageDescription messageDescription;
+    String midiChannelText = " [CH " + juce::String(m.getChannel()) + "]";
 
     if (m.isNoteOn())
     {
-        messageDescription = { "note", "Note on " + juce::MidiMessage::getMidiNoteName (m.getNoteNumber(), true, true, 3) };
+        messageDescription = { "note", "Note on " + juce::MidiMessage::getMidiNoteName (m.getNoteNumber(), true, true, 3) + 
+                midiChannelText};
     }
     else if (m.isNoteOff())
     {
-        messageDescription = { "note", "Note off " + juce::MidiMessage::getMidiNoteName (m.getNoteNumber(), true, true, 3) };
+        messageDescription = { "note", "Note off " + juce::MidiMessage::getMidiNoteName (m.getNoteNumber(), true, true, 3) + 
+                midiChannelText};
     }
     else if (m.isPitchWheel())
     {
-       messageDescription = {"pitchBend", "Pitch bend " + juce::String (m.getPitchWheelValue()) };
+       messageDescription = {"pitchBend", "Pitch bend " + juce::String (m.getPitchWheelValue()) + 
+                midiChannelText};
     }
     else if (m.isChannelPressure())
     {
-        messageDescription = { "channelPressure", "Channel pressure " + juce::String (m.getChannelPressureValue()) };
+        messageDescription = { "channelPressure", "Channel pressure " + juce::String (m.getChannelPressureValue()) + 
+                midiChannelText};
     }
     else if (m.isAftertouch())
     {
-      messageDescription = { "aftertouch", "Aftertouch " + juce::MidiMessage::getMidiNoteName (m.getNoteNumber(), true, true, 3) +  ": " + juce::String (m.getAfterTouchValue()) };
+      messageDescription = { "aftertouch", "Aftertouch " + juce::MidiMessage::getMidiNoteName (m.getNoteNumber(), true, true, 3) +  ": " + juce::String (m.getAfterTouchValue()) + 
+                midiChannelText};
     }
     else if (m.isController())
     {
@@ -89,19 +95,22 @@ MidiMessageDescription MidiMonitorAudioProcessorEditor::getMidiMessageDescriptio
         if (name.isEmpty())
             name = "[" + juce::String (m.getControllerNumber()) + "]";
 
-        messageDescription = { "controller", "Controller " + name + ": " + juce::String (m.getControllerValue()) };
+        messageDescription = { "controller", "Controller " + name + ": " + juce::String (m.getControllerValue()) + 
+                midiChannelText};
     }
     else if (m.isProgramChange())
     {
-        messageDescription = { "programChange", "Program change " + juce::String (m.getProgramChangeNumber()) };
+        messageDescription = { "programChange", "Program change " + juce::String (m.getProgramChangeNumber()) + 
+                midiChannelText};
     }
     else if (m.isAllNotesOff())
     {
-        messageDescription = { "allNotesOff", "All notes off" };
+        messageDescription = { "allNotesOff", "All notes off" + midiChannelText};
     }
     else
     {
-        messageDescription = { "unknown", juce::String::toHexString (m.getRawData(), m.getRawDataSize()) };
+        messageDescription = { "unknown", juce::String::toHexString (m.getRawData(), m.getRawDataSize()) + 
+                midiChannelText};
     }
 
     return messageDescription;

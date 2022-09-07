@@ -42,6 +42,7 @@ MainPanel::MainPanel ()
 
     midiMessagesBox.reset (new juce::TextEditor ("Messages"));
     addAndMakeVisible (midiMessagesBox.get());
+    midiMessagesBox->setFont (juce::Font ("Lato", 16.00f, juce::Font::plain).withTypefaceStyle ("Regular").withExtraKerningFactor (0.018f));
     midiMessagesBox->setMultiLine (true);
     midiMessagesBox->setReturnKeyStartsNewLine (true);
     midiMessagesBox->setReadOnly (true);
@@ -65,14 +66,14 @@ MainPanel::MainPanel ()
     midiMonitorLabel.reset (new juce::Label ("Midi Monitor",
                                              TRANS("MIDI Monitor")));
     addAndMakeVisible (midiMonitorLabel.get());
-    midiMonitorLabel->setFont (juce::Font ("Lato", 30.00f, juce::Font::plain).withTypefaceStyle ("Regular").withExtraKerningFactor (0.018f));
+    midiMonitorLabel->setFont (juce::Font ("Lato", 24.00f, juce::Font::plain).withTypefaceStyle ("Regular").withExtraKerningFactor (0.018f));
     midiMonitorLabel->setJustificationType (juce::Justification::centred);
     midiMonitorLabel->setEditable (false, false, false);
     midiMonitorLabel->setColour (juce::Label::textColourId, juce::Colours::white);
     midiMonitorLabel->setColour (juce::TextEditor::textColourId, juce::Colours::black);
     midiMonitorLabel->setColour (juce::TextEditor::backgroundColourId, juce::Colour (0x00000000));
 
-    midiMonitorLabel->setBounds (10, 10, 460, 25);
+    midiMonitorLabel->setBounds (10, 5, 460, 25);
 
     noteButton.reset (new juce::TextButton ("Note Button"));
     addAndMakeVisible (noteButton.get());

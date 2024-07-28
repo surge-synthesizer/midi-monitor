@@ -1,3 +1,12 @@
+# MIDI MONITOR IS NOT AN ACTIVE PROJECT 
+
+Really, just use Geert's "ShowMIDI" instead, which is also FOSS but is different from this in that it
+is good.
+
+**https://github.com/gbevin/ShowMIDI Get ShowMIDI Here**
+
+Here's the old README anyway.
+
 # Midi Monitor
 
 MIDI Monitor is a small utility plugin for monitoring MIDI. It logs a limited set of MIDI messages that are useful when debugging controller output.
